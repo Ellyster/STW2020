@@ -14,25 +14,28 @@ namespace MovieWars
         {
             string trainingFilename = "ratings_training.csv";
             string testFilename = "ratings_test.csv";
-            MovieRating example = new MovieRating { userId = 1, movieId = 441 };
+
+            MovieRating example = new MovieRating { userId = 4, movieId = 260 };
+
             MatrixFactorizationTrainer.Options options = new MatrixFactorizationTrainer.Options
               {
                   MatrixColumnIndexColumnName = "userIdEncoded",
                   MatrixRowIndexColumnName = "movieIdEncoded", 
                   LabelColumnName = "Label",
-                  NumberOfIterations = 10,
-                  ApproximationRank = 25,
+                  NumberOfIterations = 20,
+                  ApproximationRank = 100,
               };
             
 
             MLContext mlContext = new MLContext();
-            (IDataView trainingData, IDataView testData) = LoadData(mlContext, trainingFilename, testFilename);          
+            (IDataView trainingData, IDataView testData) = LoadData(mlContext, trainingFilename, testFilename);
+            DisplayDatasets(trainingData, testData);      
 
             IEstimator<ITransformer> pipeline = BuildMatrixFactorizationPipeline(mlContext, options);
-            ITransformer model = TrainModel(mlContext, pipeline, trainingData);
+            DisplayPipeline(pipeline);
 
-            var trainingMetrics = EvaluateModel(mlContext, model, "TRAINING", trainingData);
-            DisplayMetrics("TRAINING", trainingMetrics);
+            ITransformer model = TrainModel(mlContext, pipeline, trainingData);
+            DisplayModel(model);
 
             var testMetrics = EvaluateModel(mlContext, model, "TEST", testData);
             DisplayMetrics("TEST", testMetrics);
@@ -45,22 +48,18 @@ namespace MovieWars
 
         public static (IDataView training, IDataView test) LoadData(MLContext mlContext, string trainingFilename, string testFilename)
         {
-          Console.WriteLine("=============== Loading datasets ===============" + "\n");
+          Console.WriteLine("=============== Loading datasets ===============");
 
-          var trainingDatasetPath = Path.Combine(Environment.CurrentDirectory, "data", trainingFilename);
-          var testDatasetPath = Path.Combine(Environment.CurrentDirectory, "data", testFilename);
-          
-          IDataView trainingData = mlContext.Data.LoadFromTextFile<MovieRating>(trainingDatasetPath, hasHeader: true, separatorChar: ',');
-          IDataView testData = mlContext.Data.LoadFromTextFile<MovieRating>(testDatasetPath, hasHeader: true, separatorChar: ',');
+          // TASK 1: Load the training and test datasets.
 
-          return (trainingData, testData);
+          return (null, null);
         }
 
         public static IEstimator<ITransformer> BuildMatrixFactorizationPipeline(MLContext mlContext, MatrixFactorizationTrainer.Options options)
         {
-          Console.WriteLine("=============== Building the model ===============" + "\n");
+          Console.WriteLine("=============== Building the model ===============");
           
-          // TASK 1: Create a funtion that returns training pipeline for the Matrix Factorization algorithm with the proper options.
+          // TASK 2: Create a funtion that returns training pipeline for the Matrix Factorization algorithm with the proper options.
 
           return null;
         }
@@ -69,7 +68,7 @@ namespace MovieWars
         {
           Console.WriteLine("=============== Training the model ===============");
 
-          // TASK 2: Create a function that trains and returns the model with the training pipeline and the training dataset.
+          // TASK 3: Create a function that trains and returns the model with the training pipeline and the training dataset.
 
           return null;
         }
@@ -78,7 +77,7 @@ namespace MovieWars
         {
           Console.WriteLine("=============== Evaluating the model (" + datasetName + ") ===============");
          
-          // TASK 3: Create a function that evaluates a ginven model with the provided dataset and returns its metrics.
+          // TASK 4: Create a function that evaluates a ginven model with the provided dataset and returns its metrics.
 
           return null;
         }
@@ -87,7 +86,7 @@ namespace MovieWars
         {
           Console.WriteLine("=============== Making a prediction ===============");
 
-          // TASK 4: Create a function that makes and returns a prediction for an example with the given model.
+          // TASK 5: Create a function that makes and returns a prediction for an example with the given model.
 
           return null;
         }
@@ -113,23 +112,49 @@ namespace MovieWars
             Console.WriteLine("Your model was saved as " + modelFilename + "\n");
         }
 
+        public static void DisplayDatasets(IDataView trainingData, IDataView testData)
+        {
+          if(trainingData == null || testData == null){
+            Console.WriteLine("Task 1 \"Load data\" not completed.\n");
+          } else {
+            Console.WriteLine("Training data set size: " + trainingData.Preview(1000000));
+            Console.WriteLine("Test data set size: " + testData.Preview(1000000) + "\n");
+          }
+        }
+
+        public static void DisplayPipeline(IEstimator<ITransformer> pipeline)
+        {
+          if(pipeline == null)
+            Console.WriteLine("Task 2 \"Create pipeline\" not completed.\n");
+          else
+            Console.WriteLine("Pipeline: " + pipeline.ToString() + "\n");
+        }
+
+        public static void DisplayModel(ITransformer model)
+        {
+          if(model == null)
+            Console.WriteLine("Task 3 \"Train model\" not completed.\n");
+          else
+            Console.WriteLine();
+        }
+
         public static void DisplayMetrics(string datasetName, RegressionMetrics metrics)
         {
-          if(metrics != null){
+          if(metrics == null){
+            Console.WriteLine("Task 4 \"Evaluate model\" not completed.\n");
+          } else {
             Console.WriteLine("Metrics from " + datasetName + " data");
             Console.WriteLine("Mean Absolute Error : " + metrics.MeanAbsoluteError.ToString());
             Console.WriteLine("RSquared: " + metrics.RSquared.ToString() + "\n");
-          } else {
-            Console.WriteLine("Task 3 \"Evaluate model\" not completed.");
           }   
         }
 
         public static void DisplayPrediction(MovieRating example, MovieRatingPrediction prediction)
         {
-          if(prediction != null)
-            Console.WriteLine("The predicted score of user " + example.userId + " for the movie " + example.movieId + " is: " + Math.Round(prediction.Score, 1) + "\n");
+          if(prediction == null)
+            Console.WriteLine("Task 5 \"Predict\" not completed.\n");
           else
-            Console.WriteLine("Task 4 \"Predict\" not completed.");
+            Console.WriteLine("The predicted score of user " + example.userId + " for the movie " + example.movieId + " is: " + Math.Round(prediction.Score, 1) + "\n");
         }
     }
 }
