@@ -112,6 +112,7 @@ namespace MovieWars
             Console.WriteLine("Your model was saved as " + modelFilename + "\n");
         }
 
+        #region Auxiliary methods for display
         public static void DisplayDatasets(IDataView trainingData, IDataView testData)
         {
           if(trainingData == null || testData == null){
@@ -156,5 +157,6 @@ namespace MovieWars
           else
             Console.WriteLine("The predicted score of user " + example.userId + " for the movie " + example.movieId + " is: " + Math.Round(prediction.Score, 1) + "\n");
         }
+        #endregion
     }
 }
