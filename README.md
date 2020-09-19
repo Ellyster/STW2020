@@ -20,43 +20,55 @@ This repository contains all the material for the *Movie Wars - Building a ML mo
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites 📋
-Install Python 3.7+:
+1. Install Python 3.7+:
 [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/)
 
-Install Pip:
-> curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py 
-> python get-pip.py
+2. Install Pip:
+```bat
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py 
+python get-pip.py
+```
 
-Install Jupyter notebook:
-> pip install notebook
+3. Install Jupyter notebook:
+```bat
+pip install notebook
+```
 
-Install required libraries:
-> pip install statistics stats pandas seaborn statsmodels numpy scikit-learn matplotlib scipy
+4. Install required libraries:
+```bat
+pip install statistics stats pandas seaborn statsmodels numpy scikit-learn matplotlib scipy
+```
 
-Install Visual Studio Code:
+5. Install Visual Studio Code:
 [https://code.visualstudio.com/](https://code.visualstudio.com/)
 
-Install .NET core 3.1+:
+6. Install .NET core 3.1+:
 [https://dotnet.microsoft.com/download/dotnet-core/3.1](https://dotnet.microsoft.com/download/dotnet-core/3.1)
 
-Restore NuGets:
+7. Restore NuGets:
 - ML.NET
 - ML.NET Recommender
 
 ### Installation 🔧
-
-> git clone https://github.com/Ellyster/STW2020-MovieWars.git
+Just clone this repository:
+```bat
+git clone https://github.com/Ellyster/STW2020-MovieWars.git
+```
 
 ## Usage ⚙️
 1. Open the PowerPoint presentation and follow it along.
 
 2. To open the first and second parts notebooks, use:
-> cd Jupyter
-> jupyter notebook
+```bat
+cd Jupyter
+jupyter notebook
+```
 
 3. To open the third part ML.NET project, use:
-> cd ML.NET
-> code .
+```bat
+cd ML.NET
+code .
+```
 
 ## Contribute 🛠️
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -71,5 +83,5 @@ Contributions are what make the open source community such an amazing place to b
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact ✒️
-* **Alonso Gragera** - *AI Product Manager & ML Engineer @[Unit4](https://www.unit4.com/)* - [ellster](https://github.com/ellyster)
-* **Manuel Ruiz** - *Data Scientist @[Unit4](https://www.unit4.com/)* - [mruizcardenas](https://github.com/mruizcardenas)
+* **[Alonso Gragera](https://github.com/ellyster)** - *AI Product Manager & ML Engineer @[Unit4](https://www.unit4.com/)* 
+* **[Manuel Ruiz](https://github.com/mruizcardenas)** - *Data Scientist @[Unit4](https://www.unit4.com/)* 
