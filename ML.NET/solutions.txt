@@ -1,0 +1,41 @@
+// TASK 1: Load the training and test datasets.
+var trainingDatasetPath = Path.Combine(Environment.CurrentDirectory, "data", trainingFilename);
+var testDatasetPath = Path.Combine(Environment.CurrentDirectory, "data", testFilename);
+          
+IDataView trainingData = mlContext.Data.LoadFromTextFile<MovieRating>(trainingDatasetPath, hasHeader: true, separatorChar: ',');
+IDataView testData = mlContext.Data.LoadFromTextFile<MovieRating>(testDatasetPath, hasHeader: true, separatorChar: ',');
+
+return (trainingData, testData);
+
+// TASK 2: Create a function that returns training pipeline for the Matrix Factorization algorithm with the proper options.
+IEstimator<ITransformer> preprocesingPipeline = mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "userIdEncoded", inputColumnName: "userId")
+                                                .Append(mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "movieIdEncoded", inputColumnName: "movieId"));
+
+var trainingPipeline = preprocesingPipeline.Append(mlContext.Recommendation().Trainers.MatrixFactorization(options));
+
+return trainingPipeline;
+
+// TASK 3: Create a function that trains and returns the model with the training pipeline and the training dataset.
+ITransformer model = pipeline.Fit(trainingData);
+
+return model;
+
+
+// TASK 4: Create a function that evaluates a given model with the provided dataset and returns its metrics.
+var predictions = model.Transform(data);
+var metrics = mlContext.Regression.Evaluate(predictions, labelColumnName: "Label", scoreColumnName: "Score");
+
+return metrics;
+
+
+// TASK 5: Create a function that makes and returns a prediction for an example with the given model.
+var predictionEngine = mlContext.Model.CreatePredictionEngine<MovieRating, MovieRatingPrediction>(model);
+
+return predictionEngine.Predict(example);
+
+// Extra: Optimize hyper parameters
+MatrixColumnIndexColumnName = "userIdEncoded",
+MatrixRowIndexColumnName = "movieIdEncoded", 
+LabelColumnName = "Label",
+NumberOfIterations = 20,
+ApproximationRank = 100,
